@@ -35,4 +35,4 @@ All commits should separated into logical units, i.e. unrelated changes should b
 **ACF** - The best way to take control of your WordPress admin area.
 
 ## License
-Sapwood is released under GPLv3.
+Sapwood is released under MIT.
