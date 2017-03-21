@@ -1,0 +1,31 @@
+{#
+	/**
+	 * A template component. Duplicate this folder to begin creating a new
+	 * component.
+	 *
+	 * Start by running a find/replace for the following:
+	 * Template = [Component_name] // convert class to component class
+	 * template = [component-name] // convert names to component name
+	 * _[component-name] = [component-name] // remove leading underscores
+	 *
+	 * File:        _template.twig
+	 * Component:   _template
+	 * data: {
+   * }
+	 */
+#}
+
+{% set _body = block('body')|trim %}
+
+{% embed '_base/_base.twig' with {
+  data: object,
+  element: '',
+  name: '_template'
+} %}
+  {% block content %}
+
+    {# do your stuff for rendering out the component here #}
+    {{ _body }}
+
+  {% endblock %}
+{% endembed %}

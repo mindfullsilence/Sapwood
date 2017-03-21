@@ -1,0 +1,29 @@
+{#
+	/**
+	 * A Link Sub Component. Used by text-link.twig and image-link.twig
+	 *
+	 * File:        link.twig
+	 * Component:   link
+	 * object: {
+   *   link: *(string|int) The href or post id to link to
+   *   target: *string One of _blank, _parent, or _self
+   * }
+   *
+   *
+	 */
+#}
+
+{% set _body = block('body')|trim %}
+
+{% embed '_base/_base.twig' with {
+  data: object,
+  element: 'a',
+  name: 'link'
+} %}
+  {% block content %}
+
+    {# do your stuff for rendering out the component here #}
+    {{ _body }}
+
+  {% endblock %}
+{% endembed %}

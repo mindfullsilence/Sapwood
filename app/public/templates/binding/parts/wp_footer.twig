@@ -1,0 +1,5 @@
+{% do action('sapwood/template/part/wp-footer/prefix', _context) %}
+{% do action('sapwood/template/part/wp-footer/prefix/name=' ~ template, _object) %}
+{{ function('wp_footer') }}
+{% do action('sapwood/template/part/wp-footer/prefix/name=' ~ template, _object) %}
+{% do action('sapwood/template/part/wp-footer/suffix', _context) %}

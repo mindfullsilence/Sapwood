@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html {{ function('language_attributes') }}>
+
+{% block skeleton_head %}
+  <!-- *******************************************************************************************************************
+     HEAD
+  ******************************************************************************************************************** -->
+  <head>
+    {% do action('sapwood/template/head/before', _context) %}
+    {% block skeleton_head_content %}
+    {% endblock %}
+    {% do action('sapwood/template/head/after', _context) %}
+  </head>
+{% endblock %}
+
+{% block skeleton_body %}
+  <!-- *******************************************************************************************************************
+     BODY
+  ******************************************************************************************************************** -->
+  <body {{ function('body_class') }} itemscope itemtype="http://schema.org/WebPage">
+    {% do action('sapwood/template/binding/body/before', _context) %}
+    {% block skeleton_body_content %}
+    {% endblock %}
+    {% do action('sapwood/template/binding/body/after', _context) %}
+  </body>
+{% endblock %}
+
+</html>

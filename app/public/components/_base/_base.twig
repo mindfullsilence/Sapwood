@@ -1,0 +1,68 @@
+{##
+ # The setup for components. All components should embed this component in order
+ # to load their logic and run their hooks. This component should never be
+ # embedded or included in a template, and only used in components.
+ #}
+{##
+ # loads and runs component logic
+ # Here we convert the data passed in to a variable that is always overwritten
+ # every time this component is called. This makes sure that properties of the
+ # object are not passed into child-embedded files.
+ #}
+{% set _name = name %}
+{% set name = false %}
+
+{% set _object = {
+  data: data,
+  element: element,
+  attributes: attributes,
+  name: _name
+} %}
+{% set object = false %}
+{##
+ # Instantiates the component and runs the following hooks:
+ #
+ # action sapwood/component/register/name=#{name}
+ #}
+{% do action('sapwood/components/_load', _name) %}
+{% set _instance = _name|apply_filters('sapwood/component/_register') %}
+
+{##
+ # Sets up the basic data, validates it, sanitizes it. If validation fails, _object will
+ # become null and the javascript console will show more detailed information abou the object.
+ # Fires the following hooks.
+ #
+ # action sapwood/component/validate_object/name=#{name}
+ # filter sapwood/component/format_element/name=#{name}
+ # filter sapwood/component/format_attributes/name=#{name}
+ # filter sapwood/component/format_data/name=#{name}
+ #}
+{% set _object = _object|apply_filters('sapwood/component/_get_data', _instance, _name) %}
+
+
+{# if the object isn't valid, we shouldn't do anything more #}
+{% if not _object is null %}
+  {##
+   # Sets up the element and prints the attributes for the element. Fires the
+   # following hooks:
+   #
+   # action sapwood/component/enqueue_styles/name=#{name}
+   # action sapwood/component/prefix/name=#{name}
+   # action sapwood/component/before/name=#{name}
+   #}
+  {% do action('sapwood/component/_before', _object, _instance, _name) %}
+
+  {##
+   # Prints out the body of the component.
+   #}
+  {{ block('content')|trim }}
+
+  {##
+   # Closes the element and fires the following hooks
+   #
+   # action sapwood/component/enqueue_scripts/name=#{name}
+   # action sapwood/component/after/name=#{name}
+   # action sapwood/component/suffix/name=#{name}
+   #}
+  {% do action('sapwood/component/_after', _object, _instance, _name) %}
+{% endif %}

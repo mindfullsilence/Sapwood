@@ -1,0 +1,39 @@
+{#
+	/**
+	 * A text-link component. Duplicate this folder to begin creating a new
+	 * component.
+	 *
+	 * Start by running a find/replace for the following:
+	 * Text_link = [Component_name]
+	 * text-link = component-name
+	 *
+	 * File:        text-link.twig
+	 * Component:   text-link
+	 * data: {
+   * }
+	 */
+#}
+
+{% set _body = block('body')|trim %}
+
+{% embed '_base/_base.twig' with {
+  data: object,
+  element: '',
+  name: 'text-link'
+} %}
+  {% block content %}
+
+    {% embed 'link/link.twig' with {
+      object: _object.data
+    } %}
+      {% block body %}
+          {{ _object.data.left_icon }}
+
+          {{ _body ?: _object.data.text }}
+
+          {{ _object.data.right_icon }}
+      {% endblock %}
+    {% endembed %}
+
+  {% endblock %}
+{% endembed %}
