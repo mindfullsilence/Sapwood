@@ -1,0 +1,11 @@
+{% do action('sapwood/template/part/meta/prefix', _object) %}
+{% do action('sapwood/template/part/meta/prefix/name=' ~ template, _object) %}
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="msapplication-config" content="/app/themes/sapwood/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+{% do action('sapwood/template/part/meta/prefix/name=' ~ template, _object) %}
+{% do action('sapwood/template/part/meta/prefix' ~ template, _object) %}

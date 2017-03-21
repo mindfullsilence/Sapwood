@@ -1,0 +1,5 @@
+{% do action('sapwood/template/part/wp-head/prefix', _context) %}
+{% do action('sapwood/template/part/wp-head/prefix/name=' ~ template, _object) %}
+{{ function('wp_head') }}
+{% do action('sapwood/template/part/wp-head/prefix/name=' ~ template, _object) %}
+{% do action('sapwood/template/part/wp-head/suffix', _context) %}

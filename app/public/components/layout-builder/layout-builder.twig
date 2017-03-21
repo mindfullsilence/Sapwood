@@ -1,0 +1,41 @@
+{#
+	/**
+	 * A layout-builder component. Duplicate this folder to begin creating a new
+	 * component.
+	 *
+	 * Start by running a find/replace for the following:
+	 * Layout_builder = [Component_name] // convert class to component class
+	 * layout-builder = [component-name] // convert names to component name
+	 * _[component-name] = [component-name] // remove leading underscores
+	 *
+	 * File:        layout-builder.twig
+	 * Component:   layout-builder
+	 * data: {
+   * }
+	 */
+#}
+
+{% set _body = block('body')|trim %}
+
+{% embed '_base/_base.twig' with {
+  data: object,
+  element: 'div',
+  name: 'layout-builder'
+} %}
+    {% block content %}
+      {{ _body }}
+      {% for section in _object.data %}
+        {{ section.css }}
+
+        <div class="section row sidebar-{{ section.sidebar }} column-{{ section.number_of_columns }} {{ section.animate ? "animate #{section.animation}" }}" id={{ section.id }}>
+          {% for column in section.columns %}
+            <div class="{{ column.class }}">
+              {# embed component builder here #}
+              {% embed 'component-builder/component-builder.twig' with {object: column.components} %}
+              {% endembed %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    {% endblock %}
+{% endembed %}
