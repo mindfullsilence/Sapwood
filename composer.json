@@ -1,9 +1,9 @@
 {
     "name": "mindfullsilence/sapwood",
     "description": "A starter theme for using ACF, Timber, and a component-based development workflow.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "type": "wordpress-theme",
-    "license": "WTFPL",
+    "license": "MIT",
     "require": {
       "php": ">=7.0.0",
       "composer/installers": "~1.0",
