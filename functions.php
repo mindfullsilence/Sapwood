@@ -11,15 +11,17 @@ ini_set( 'error_log', __DIR__ . '/debug.log' );
  * @param string $subtitle
  * @param string $title
  */
-$sapwood_error = function ($message, $subtitle = '', $title = '') {
-    $title = $title ?: __('sapwood &rsaquo; Error', 'sapwood');
-    $footer = '<a href="https://github.com/mindfullsilence/sapwood">github.com/mindfullsilence/sapwood</a>';
-    $message = "<h1>{$title}<br><small>{$subtitle}</small></h1><p>{$message}</p><p>{$footer}</p>";
-    wp_die($message, $title);
-};
+if(!function_exists('sapwood_error')) :
+  function sapwood_error($message, $subtitle = '', $title = '') {
+      $title = $title ?: __('sapwood &rsaquo; Error', 'sapwood');
+      $footer = '<a href="https://github.com/mindfullsilence/sapwood">github.com/mindfullsilence/sapwood</a>';
+      $message = "<h1>{$title}<br><small>{$subtitle}</small></h1><p>{$message}</p><p>{$footer}</p>";
+      wp_die($message, $title);
+  };
+endif;
 
 if(!defined('ABSPATH')) {
-  $sapwood_error(__('This file should not be accessed directly.', 'sapwood'));
+  sapwood_error(__('This file should not be accessed directly.', 'sapwood'));
 }
 
 /**
@@ -31,7 +33,7 @@ require_once __DIR__.'/vendor/autoload.php';
  * Ensure compatible version of PHP is used
  */
 if (version_compare('7.0.0', phpversion(), '>=')) {
-    $sapwood_error(__('You must be using PHP 7.0.0 or greater.', 'sapwood'), __('Invalid PHP version', 'sapwood'));
+    sapwood_error(__('You must be using PHP 7.x or greater.', 'sapwood'), __('Invalid PHP version', 'sapwood'));
 }
 
 /**
@@ -39,12 +41,12 @@ if (version_compare('7.0.0', phpversion(), '>=')) {
  */
 if(!function_exists('acf')) {
   if(!is_admin()) {
-    $sapwood_error(__('ACF must be installed and activated to use this theme.', 'sapwood'));
+    sapwood_error(__('ACF version 5.x must be installed and activated to use this theme.', 'sapwood'));
   }
 }
 if(!class_exists('Timber\\Timber')) {
   if(!is_admin()) {
-    $sapwood_error(__('Timber version 1.0 or greater must be installed and activated to use this theme.', 'sapwood'));
+    sapwood_error(__('Timber version 1.x must be installed and activated to use this theme.', 'sapwood'));
   }
 }
 
@@ -66,11 +68,13 @@ if(!class_exists('Timber\\Timber')) {
  * └── TEMPLATEPATH           -> /srv/www/example.com/current/web/app/themes/sapwood/app/public/templates
  */
 if (is_customize_preview() && isset($_GET['theme'])) {
-  $sapwood_error(__('Theme must be activated prior to using the customizer.', 'sapwood'));
+  sapwood_error(__('Theme must be activated prior to using the customizer.', 'sapwood'));
 }
+
 add_filter('template', function ($stylesheet) {
   return dirname($stylesheet, 3);
 });
+
 if (basename($stylesheet = get_option('template')) !== "templates") {
   update_option('template', "{$stylesheet}/app/public/templates");
   wp_redirect($_SERVER['REQUEST_URI']);
@@ -88,7 +92,7 @@ if (basename($stylesheet = get_option('template')) !== "templates") {
 array_map(function ($file) use ($sapwood_error) {
     $file = "app/lib/{$file}.php";
     if (!locate_template($file, true, true)) {
-        $sapwood_error(sprintf(__('Error locating <code>%s</code> for inclusion.', 'sapwood'), $file), 'File not found');
+        sapwood_error(sprintf(__('Error locating <code>%s</code> for inclusion.', 'sapwood'), $file), 'File not found');
     }
 }, [
   'core',

@@ -3,12 +3,13 @@
 namespace Sapwood;
 
 
+if(!function_exists('sapwood_get_component_dir')):
+  function sapwood_get_component_dir($name) {
+    $dir = sapwood_get_setting('component_dir') . "/{$name}";
 
-function sapwood_get_component_dir($name) {
-  $dir = sapwood_get_setting('component_dir') . "/{$name}";
-
-  return $dir;
-}
+    return $dir;
+  }
+endif;
 
 function sapwood_component_registered($name) {
   if(!isset(sapwood()->components->names[$name])) return false;
