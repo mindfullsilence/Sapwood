@@ -1,6 +1,6 @@
 <?php
 
-namespace Sapwood;
+namespace Sapwood\Library;
 
 
 

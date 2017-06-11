@@ -1,5 +1,5 @@
 <?php
-namespace Sapwood;
+namespace Sapwood\Library;
 
 /**
  * Loads a php script

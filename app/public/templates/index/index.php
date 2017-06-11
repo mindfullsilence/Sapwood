@@ -1,8 +1,8 @@
 <?php
 
-namespace Sapwood;
+namespace Sapwood\Template;
 
-use Sapwood\Binding;
+use Sapwood\Template;
 
 class Index extends Binding {
 

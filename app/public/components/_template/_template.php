@@ -1,7 +1,9 @@
 <?php
+namespace Sapwood\Component;
 
-
-namespace Sapwood;
+use Sapwood;
+use Sapwood\Library;
+use Sapwood\Library\Component;
 
 /**
  * The Class name, twig file, php file, the $name variable below, and the

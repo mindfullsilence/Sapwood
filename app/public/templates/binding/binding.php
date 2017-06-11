@@ -1,8 +1,8 @@
 <?php
 
-namespace Sapwood/Template;
+namespace Sapwood\Template;
 
-use Sapwood\Template\Base;
+use Sapwood\Template;
 
 class Binding extends Base {
 

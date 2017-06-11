@@ -1,8 +1,9 @@
 <?php
 
-namespace Sapwood/Template;
+namespace Sapwood\Template;
 
-use Sapwood\Template;
+use Sapwood;
+use Sapwood\Library;
 
 
 class Base extends Template {
