@@ -1,6 +1,6 @@
 <?php
 
-namespace Sapwood;
+namespace Sapwood\Library;
 
 
 
@@ -34,6 +34,7 @@ class Component {
 		$this->add_filter('get_component_types',  array($this, 'get_component_type'), 20, 1);
 
     // initialize
+    $this->add_filter('fields',               array(__CLASS__, 'register_fields'), 20, 1);
     $this->add_action('register',             array($this, 'register'), 20, 1);
 
     // validate

@@ -19,12 +19,12 @@
   name: _name
 } %}
 {% set object = false %}
+
 {##
  # Instantiates the component and runs the following hooks:
  #
  # action sapwood/component/register/name=#{name}
  #}
-{% do action('sapwood/components/_load', _name) %}
 {% set _instance = _name|apply_filters('sapwood/component/_register') %}
 
 {##
@@ -37,11 +37,10 @@
  # filter sapwood/component/format_attributes/name=#{name}
  # filter sapwood/component/format_data/name=#{name}
  #}
-{% set _object = _object|apply_filters('sapwood/component/_get_data', _instance, _name) %}
-
+{% set _object = _object|apply_filters('sapwood/component/_prepare', _instance, _name) %}
 
 {# if the object isn't valid, we shouldn't do anything more #}
-{% if not _object is null %}
+{% if _object is not null %}
   {##
    # Sets up the element and prints the attributes for the element. Fires the
    # following hooks:
@@ -50,7 +49,7 @@
    # action sapwood/component/prefix/name=#{name}
    # action sapwood/component/before/name=#{name}
    #}
-  {% do action('sapwood/component/_before', _object, _instance, _name) %}
+  {% do action('sapwood/component/_setup', _object, _instance, _name) %}
 
   {##
    # Prints out the body of the component.
@@ -64,5 +63,7 @@
    # action sapwood/component/after/name=#{name}
    # action sapwood/component/suffix/name=#{name}
    #}
-  {% do action('sapwood/component/_after', _object, _instance, _name) %}
+  {% do action('sapwood/component/_teardown', _object, _instance, _name) %}
 {% endif %}
+
+{% do action() %}

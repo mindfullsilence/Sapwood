@@ -1,12 +1,15 @@
 {##
- # The setup for components. All components should embed this component in order
- # to load their logic and run their hooks. This component should never be
- # embedded or included in a template, and only used in components.
+ # Disclaimer:
+ # The setup for templates. All templates should extend this template in order
+ # to load their logic and run their hooks. This template should never be
+ # embedded or included in a template, and only used as the base from which to
+ # extend other templates.
  #}
+
 {##
- # loads and runs component logic
+ # loads and runs template logic
  # Here we convert the data passed in to a variable that is always overwritten
- # every time this component is called. This makes sure that properties of the
+ # every time this template is called. This makes sure that properties of the
  # object are not passed into child-embedded files.
  #}
 {% set _name = name %}
@@ -17,52 +20,45 @@
   name: _name
 } %}
 {% set object = false %}
-{##
- # Instantiates the component and runs the following hooks:
- #
- # action sapwood/component/register/name=#{name}
- #}
-{% do action('sapwood/components/_load', _name) %}
-{% set _instance = _name|apply_filters('sapwood/component/_register') %}
 
 {##
  # Sets up the basic data, validates it, sanitizes it. If validation fails, _object will
  # become null and the javascript console will show more detailed information abou the object.
  # Fires the following hooks.
  #
- # action sapwood/component/validate_object/name=#{name}
- # filter sapwood/component/format_element/name=#{name}
- # filter sapwood/component/format_attributes/name=#{name}
- # filter sapwood/component/format_data/name=#{name}
+ # action sapwood/template/validate_object/name=#{name}
+ # filter sapwood/template/format_element/name=#{name}
+ # filter sapwood/template/format_attributes/name=#{name}
+ # filter sapwood/template/format_data/name=#{name}
  #}
-{% set _object = _object|apply_filters('sapwood/component/_get_data', _instance, _name) %}
+{% set _object = _object|apply_filters('sapwood/template/_prepare', _name) %}
 
 
 {# if the object isn't valid, we shouldn't do anything more #}
-{% if not _object is null %}
+{% if _object is not null %}
   {##
    # Sets up the element and prints the attributes for the element. Fires the
    # following hooks:
    #
-   # filter sapwood/component/styles/name=#{name}
-   # action sapwood/component/enqueue_styles/name=#{name}
-   # action sapwood/component/prefix/name=#{name}
-   # action sapwood/component/before/name=#{name}
+   # filter sapwood/template/styles/name=#{name}
+   # action sapwood/template/enqueue_styles/name=#{name}
+   # action sapwood/template/prefix/name=#{name}
+   # action sapwood/template/before/name=#{name}
    #}
-  {% do action('sapwood/component/_before', _object, _instance, _name) %}
+  {% do action('sapwood/template/_setup', _name, _object) %}
 
   {##
-   # Prints out the body of the component.
+   # Prints out the body of the template.
    #}
   {{ block('content')|trim }}
 
   {##
    # Closes the element and fires the following hooks
    #
-   # filter sapwood/component/scripts/name=#{name}
-   # action sapwood/component/enqueue_scripts/name=#{name}
-   # action sapwood/component/after/name=#{name}
-   # action sapwood/component/suffix/name=#{name}
+   # filter sapwood/template/scripts/name=#{name}
+   # action sapwood/template/enqueue_scripts/name=#{name}
+   # action sapwood/template/after/name=#{name}
+   # action sapwood/template/suffix/name=#{name}
    #}
-  {% do action('sapwood/component/_after', _object, _instance, _name) %}
+  {% do action('sapwood/template/_teardown', _name, _object) %}
 {% endif %}

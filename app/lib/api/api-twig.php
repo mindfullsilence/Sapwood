@@ -1,6 +1,19 @@
 <?php
+namespace Sapwood;
 
-function sapwood_add_twig_filter($twig, $str, $callable) {
+
+/**
+ * Manipulate twig
+ * @var Twig_Environment $twig The instance of twig used for rendering
+ * @return TwigEnvironment $twig The manipulated twig environment
+ */
+add_filter('timber/twig', function($twig) {
+  $twig = sapwood_apply_filters('twig', false, array($twig));
+  return $twig;
+}, PHP_INT_MAX, 1);
+
+
+function sapwood_add_twig_filter($str, $callable) {
   if(!is_callable($callable)) {
     return false;
   }
@@ -9,13 +22,17 @@ function sapwood_add_twig_filter($twig, $str, $callable) {
     return false;
   }
 
-  $twig = sapwood_add_twig_stringloader($twig);
+  add_filter('sapwood/twig', function($twig) use ($str, $callable) {
+    $twig = sapwood_add_twig_stringloader($twig);
 
-  $filter = new \Twig_SimpleFilter($str, $callable, array('needs_context' => true));
+    $filter = new \Twig_SimpleFilter($str, $callable, array('needs_context' => true));
 
-  $twig->addFilter($twig_string, $filter);
+    $twig->addFilter($filter);
 
-  return $twig;
+    return $twig;
+  });
+
+  return true;
 }
 
 function sapwood_add_twig_function($twig, $str, $callable) {
@@ -54,9 +71,8 @@ function sapwood_add_twig_test($twig, $str, $callable) {
 }
 
 function sapwood_add_twig_stringloader($twig) {
-  if(!sapwood()->twig_extension_loaded) {
+  if(!sapwood_set_setting('stringloader', true)) {
     $twig->addExtension(new \Twig_Extension_StringLoader());
-    sapwood()->twig_extension_loaded = true;
   }
 
   return $twig;

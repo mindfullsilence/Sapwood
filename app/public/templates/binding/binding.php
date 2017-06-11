@@ -1,17 +1,18 @@
 <?php
 
-namespace Sapwood;
+namespace Sapwood/Template;
 
-class Binding extends Template {
+use Sapwood\Template\Base;
+
+class Binding extends Base {
+
+  public $name = 'binding';
+  public $extends = '_base';
 
   function __construct() {
-    $this->name = 'binding';
-
     parent::__construct();
   }
 
-  function extends($templates, $name) {
-    return $templates;
-  }
-
 }
+
+new Binding();

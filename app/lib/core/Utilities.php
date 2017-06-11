@@ -4,7 +4,7 @@
 // the php files, not the twig files. If you need functions for twig, see
 // Theme_Filters.php
 ////////////////////////////////////////////////////////////////////////////////
-namespace Sapwood;
+namespace Sapwood\Library;
 
 use \Timber\Timber;
 
@@ -22,7 +22,7 @@ class Utilities {
 
     sapwood_add_twig_filter('debug', array($this, 'print_debug_messages'));
 
-    add_action('sapwood/template/body/suffix', array($this, 'print_debug_messages'));
+    add_action('sapwood/template/binding/body/after', array($this, 'print_debug_messages'));
 	}
 
 	/**
@@ -32,13 +32,11 @@ class Utilities {
 	 */
 	public function display($message = '', $id = '') {
 		$message = json_encode($message);
-		echo <<<CONSOLE
-<script type='text/javascript'>
-	console.group('$id');
-	console.dir( $message );
-	console.groupEnd();
-</script>
-CONSOLE;
+		?><script type='text/javascript'>
+    	console.group('$id');
+    	console.dir( <?php echo $message; ?> );
+    	console.groupEnd();
+    </script><?php
 	}
 
 	/**
@@ -47,7 +45,7 @@ CONSOLE;
 	 */
 	public function debug($message = '', $id = '')
 	{
-		if($id === '') {
+		if( !$id ) {
 			$id = strval(rand());
 		}
 		$this->messages[$id] = $message;
@@ -68,21 +66,9 @@ CONSOLE;
 		}
 	}
 
-	/**
-	 * List all possible twig files that the page can render to. This is useful if you want to know what twig file to
-	 * create for the given page.
-	 */
-	public function list_templates() {
-		if(class_exists(array('Mindfullsilence', 'Hierarchy'))) {
-			Utilities::debug($context['templates'], 'templates');
-		} else {
-			Utilties::debug('You must have Mindfullsilence\Hierarchy installed to see the templates');
-		}
-	}
-
-	public function print_debug_message() {
+	public function print_debug_messages() {
 		foreach ($this->messages as $id => $message) {
-				Utilities::display($message, $id);
+				$this->display($message, $id);
 				unset($this->messages[$id]);
 		}
 	}
@@ -96,11 +82,11 @@ CONSOLE;
 }
 
 function sapwood_utilities() {
-  if(defined('WP_DEBUG') && WP_DEBUG === true) {
-    sapwood()->util = Utilities::get_instance();
-  } else {
-    sapwood()->util = false;
+  if(WP_ENV !== 'production') {
+    sapwood_set_setting('util', Utilities::get_instance());
+    return sapwood_get_setting('util');
   }
-
-  return sapwood()->util;
+  return false;
 }
+
+sapwood_utilities();

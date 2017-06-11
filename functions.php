@@ -25,27 +25,23 @@ if(!defined('ABSPATH')) {
 /**
  * Ensure dependencies are loaded
  */
-require_once __DIR__.'/vendor/autoload.php';
+if ( file_exists( $composer_autoload = __DIR__ . '/vendor/autoload.php' ) /* check in self */
+	|| file_exists( $composer_autoload = WP_CONTENT_DIR.'/vendor/autoload.php') /* check in wp-content */
+	|| file_exists( $composer_autoload = get_stylesheet_directory().'/vendor/autoload.php') /* check in child theme */
+	|| file_exists( $composer_autoload = get_template_directory().'/vendor/autoload.php') /* check in parent theme */
+  || file_exists( $composer_autoload = dirname(ABSPATH) . '/vendor/autoload.php') /* check in parent theme */
+	|| file_exists( $composer_autoload = dirname(ABSPATH, 2) . '/vendor/autoload.php') /* check in parent theme */
+) {
+ 	require_once $composer_autoload;
+} else {
+  echo "no found";
+}
 
 /**
  * Ensure compatible version of PHP is used
  */
 if (version_compare('7.0.0', phpversion(), '>=')) {
     $sapwood_error(__('You must be using PHP 7.0.0 or greater.', 'sapwood'), __('Invalid PHP version', 'sapwood'));
-}
-
-/**
- * Ensure required plugins are loaded
- */
-if(!function_exists('acf')) {
-  if(!is_admin()) {
-    $sapwood_error(__('ACF must be installed and activated to use this theme.', 'sapwood'));
-  }
-}
-if(!class_exists('Timber\\Timber')) {
-  if(!is_admin()) {
-    $sapwood_error(__('Timber version 1.0 or greater must be installed and activated to use this theme.', 'sapwood'));
-  }
 }
 
 /**
@@ -65,8 +61,8 @@ if(!class_exists('Timber\\Timber')) {
  * ├── STYLESHEETPATH         -> /srv/www/example.com/current/web/app/themes/sapwood
  * └── TEMPLATEPATH           -> /srv/www/example.com/current/web/app/themes/sapwood/app/public/templates
  */
-if (is_customize_preview() && isset($_GET['theme'])) {
-  $sapwood_error(__('Theme must be activated prior to using the customizer.', 'sapwood'));
+if (is_customize_preview()) {
+  $sapwood_error(__('Customizer is disabled for this theme.', 'sapwood'));
 }
 add_filter('template', function ($stylesheet) {
   return dirname($stylesheet, 3);
@@ -76,8 +72,6 @@ if (basename($stylesheet = get_option('template')) !== "templates") {
   wp_redirect($_SERVER['REQUEST_URI']);
   exit();
 }
-
-
 
 /**
  * sapwood required files

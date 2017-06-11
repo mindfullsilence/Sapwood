@@ -21,15 +21,6 @@ class Template extends Component {
   }
 
   /**
-   * This method is called just after the class is instantiated
-   *
-   * This is called via an action and should not return a value.
-   */
-  public function register() {
-
-  }
-
-  /**
    * This method is called during validation of the object.
    *
    * This function should return true or false depending on if the object passed
@@ -63,7 +54,6 @@ class Template extends Component {
    * @return array The formatted data
    */
   public function format_data($data = array()) {
-
     return $data;
   }
 
@@ -84,35 +74,12 @@ class Template extends Component {
    * place to format the necessary attributes for the wrapper element to
    * contain. This should be return as an associative array that will be
    * transformed into html property="values" inside the opening element.
-   * 
+   *
    * @param  array $attributes The attributes passed in by the component
    * @return array             An associative array for use when printing the opening element
    */
   public function format_attributes($attributes = array()) {
     return $attributes;
-  }
-
-  /**
-   * This method can be used for enqueueing styles required by the component.
-   * @Note Because a component is rendered after wp_head has run, styles will
-   * be printed in the footer. This can cause a FOUC, and it is recommended that
-   * the theme fade in after styles have loaded.
-   *
-   * This is called via an action and should not return a value.
-   */
-  public function enqueue_styles() {
-
-  }
-
-  /**
-   * This method can be used for enqueueing scripts required by the component.
-   * @Note Because a component is rendered after wp_head has run, scripts will
-   * be printed in the footer.
-   *
-   * This is called via an action and should not return a value.
-   */
-  public function enqueue_scripts() {
-
   }
 
   /**
@@ -183,6 +150,33 @@ class Template extends Component {
    */
   public function ajax_response($data = array()) {
     die;
+  }
+
+  /**
+   * This method can be used for enqueueing styles required by the component.
+   * @Note Because a component is rendered after wp_head has run, styles will
+   * be printed in the footer. This can cause a FOUC, and it is recommended that
+   * the theme fade in after styles have loaded.
+   *
+   * This is called via an action and should not return a value.
+   */
+  public static function enqueue_styles() {
+
+  }
+
+  /**
+   * This method can be used for enqueueing scripts required by the component.
+   * @Note Because a component is rendered after wp_head has run, scripts will
+   * be printed in the footer.
+   *
+   * This is called via an action and should not return a value.
+   */
+  public static function enqueue_scripts() {
+
+  }
+
+  public static function register_fields($name = '', $field_group = array()) {
+    return $field_group;
   }
 
 }

@@ -2,24 +2,22 @@
 
 namespace Sapwood;
 
-class Index extends Template {
+use Sapwood\Binding;
+
+class Index extends Binding {
+
+    public $name = 'index';
+    public $extends = 'binding';
 
     function __construct() {
-      $this->name = 'index';
-
       parent::__construct();
     }
 
     function get_data($data = array(), $name = '') {
+      $data['post'] = new \Timber\Post();
       return $data;
     }
 
-    function extends($templates, $name) {
-      $templates = array_merge($templates, array(
-        'binding'
-      ));
-
-      return $templates;
-    }
-
 }
+
+new Index();

@@ -1,16 +1,9 @@
 {% extends "binding/binding.twig" %}
 
 {% block skeleton_body_content %}
-  {# Do not wrap in container, this component generates its own grid #}
-  {% set layout_builder = function('get_field', 'layout_builder', post.id) %}
-  {% if not layout_builder is empty %}
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-md-10 col-md-offset-1">
-                {% embed 'layout-builder/layout-builder.twig' with {object: layout_builder} %}
-                {% endembed %}
-            </div>
-        </div>
-    </div>
-  {% endif %}
+  {% embed 'link/link.twig' with {object: link} %}
+    {% block body %}
+      Some content
+    {% endblock %}
+  {% endembed %}
 {% endblock %}
