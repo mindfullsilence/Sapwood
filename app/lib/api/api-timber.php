@@ -1,6 +1,7 @@
 <?php
-
 namespace Sapwood\Library;
+
+use Sapwood\Library;
 
 /**
  * @filter sapwood/timber/locations

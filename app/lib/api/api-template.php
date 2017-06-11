@@ -1,6 +1,8 @@
 <?php
 namespace Sapwood\Library;
 
+use Sapwood\Library;
+
 
 /**
  * [sapwood_get_template_dir description]

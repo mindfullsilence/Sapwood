@@ -6,7 +6,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 namespace Sapwood\Library;
 
-use \Timber\Timber;
+use Sapwood\Library;
 
 if (!defined('ABSPATH')) {
 	header('Location: /');

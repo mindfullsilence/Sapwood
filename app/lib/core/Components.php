@@ -1,6 +1,7 @@
 <?php
-
 namespace Sapwood\Library;
+
+use Sapwood\Library;
 
 /**
 * action component/load

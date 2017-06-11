@@ -2,6 +2,8 @@
 
 namespace Sapwood;
 
+use Sapwood\Library;
+
 class Sapwood {
 
     function initialize() {

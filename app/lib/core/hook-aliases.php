@@ -1,10 +1,13 @@
 <?php
 namespace Sapwood;
-    /**
-     * If a base (WP or seperate plugin) hook is used, it is first aliased here.
-     * This is to allow logic to be applied globally before sending off to
-     * sapwood api
-     */
+
+use Sapwood\Library;
+
+/**
+ * If a base (WP or seperate plugin) hook is used, it is first aliased here.
+ * This is to allow logic to be applied globally before sending off to
+ * sapwood api
+ */
 
 
 /**

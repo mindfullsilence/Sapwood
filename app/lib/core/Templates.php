@@ -1,6 +1,7 @@
 <?php
-
 namespace Sapwood\Library;
+
+use Sapwood\Library;
 
 if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 

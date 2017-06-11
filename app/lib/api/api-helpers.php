@@ -1,6 +1,8 @@
 <?php
 namespace Sapwood\Library;
 
+use Sapwood\Library;
+
 /**
  * Loads a php script
  * @param  string $path An absolute path

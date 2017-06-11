@@ -1,6 +1,7 @@
 <?php
-
 namespace Sapwood\Library;
+
+use Sapwood\Library;
 
 /**
  * deals with theme ajax handlers
